@@ -7,9 +7,10 @@ use 5.010001;
 use strict;
 no warnings;
 
-use Module::Patch 0.23 qw();
+use Module::Patch 0.24 qw();
 use base qw(Module::Patch);
 
+my @oldvals;
 our %config;
 
 sub patch_data {
@@ -21,10 +22,21 @@ sub patch_data {
             MaxArgLen  => {schema=>'int*'},
             MaxArgNums => {schema=>'int*'},
         },
-        after_read_config => sub {
+        after_patch => sub {
             no strict 'refs';
+            my $oldvals = {};
             for (keys %config) {
-                ${"Carp::$_"} = $config{$_} if defined $config{$_};
+                next unless defined($config{$_});
+                $oldvals->{$_} = ${"Carp::$_"};
+                ${"Carp::$_"} = $config{$_};
+            }
+            push @oldvals, $oldvals;
+        },
+        after_unpatch => sub {
+            no strict 'refs';
+            my $oldvals = shift @oldvals or return;
+            for (keys %$oldvals) {
+                ${"Carp::$_"} = $oldvals->{$_};
             }
         },
    };
