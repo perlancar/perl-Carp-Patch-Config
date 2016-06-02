@@ -45,3 +45,8 @@ sub patch_data {
 This is not so much a "patch" for L<Carp>, but just a convenient way to set some
 Carp package variables from the command-line. Currently can set these variables:
 C<MaxArgLen>, C<MaxArgNums>.
+
+
+=head1 SEE ALSO
+
+L<Devel::Confess>
