@@ -59,6 +59,6 @@ Carp package variables from the command-line. Currently can set these variables:
 C<MaxArgLen>, C<MaxArgNums>.
 
 
-=head1 SEE ALSO
+=head1 append:SEE ALSO
 
 L<Devel::Confess>
