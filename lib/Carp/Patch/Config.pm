@@ -26,7 +26,6 @@ sub patch_data {
             no strict 'refs';
             my $oldvals = {};
             for (keys %config) {
-                next unless defined($config{$_});
                 $oldvals->{$_} = ${"Carp::$_"};
                 ${"Carp::$_"} = $config{$_};
             }
