@@ -19,7 +19,7 @@ sub patch_data {
         ],
         config => {
             MaxArgLen  => {schema=>'int*'},
-            MaxArgNUms => {schema=>'int*'},
+            MaxArgNums => {schema=>'int*'},
         },
         after_read_config => sub {
             no strict 'refs';
@@ -37,7 +37,7 @@ sub patch_data {
 
 =head1 SYNOPSIS
 
- % perl -MCarp::Patch::Config=-MaxArgNums,20 -d:Confess ...
+ % perl -MCarp::Patch::Config=MaxArgNums,20 -d:Confess ...
 
 
 =head1 DESCRIPTION
