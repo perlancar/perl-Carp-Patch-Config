@@ -28,14 +28,24 @@ sub patch_data {
                 schema => 'int*',
             },
             -Dump => {
-                schema => 'bool*',
+                schema => 'str*',
                 description => <<'_',
 
 This is not an actual configuration for Carp, but a shortcut for:
 
+    # when value is 0
+    $Carp::RefArgFormatter = undef;
+
+    # when value is 1
     $Carp::RefArgFormatter = sub {
         require Data::Dmp;
         Data::Dmp::dmp($_[0]);
+    };
+
+    # when value is 2
+    $Carp::RefArgFormatter = sub {
+        require Data::Dump;
+        Data::Dump::dump($_[0]);
     };
 
 _
@@ -49,10 +59,11 @@ _
                 my $carp_config_val  = $config{$name};
                 if ($name =~ /\A-?Dump\z/) {
                     $carp_config_name = 'RefArgFormatter';
-                    $carp_config_val  = $config{$name} ? sub {
-                        require Data::Dmp;
-                        Data::Dmp::dmp($_[0]);
-                    } : undef;
+                    $carp_config_val  =
+                        !$config{$name} ? undef :
+                        $config{$name} == 1 ? sub { require Data::Dmp ; Data::Dmp::dmp  ($_[0]) } :
+                        $config{$name} == 2 ? sub { require Data::Dump; Data::Dump::dump($_[0]) } :
+                        die "Unknown value for -Dump, please choose 0, 1, or 2";
                 }
                 $oldvals->{$carp_config_name} = ${"Carp::$carp_config_name"};
                 ${"Carp::$carp_config_name"} = $carp_config_val;
