@@ -21,15 +21,41 @@ sub patch_data {
         patches => [
         ],
         config => {
-            -MaxArgLen  => {schema=>'int*'},
-            -MaxArgNums => {schema=>'int*'},
+            -MaxArgLen  => {
+                schema => 'int*',
+            },
+            -MaxArgNums => {
+                schema => 'int*',
+            },
+            -Dump => {
+                schema => 'bool*',
+                description => <<'_',
+
+This is not an actual configuration for Carp, but a shortcut for:
+
+    $Carp::RefArgFormatter = sub {
+        require Data::Dmp;
+        Data::Dmp::dmp($_[0]);
+    };
+
+_
+            },
         },
         after_patch => sub {
             no strict 'refs';
             my $oldvals = {};
-            for (keys %config) {
-                $oldvals->{$_} = ${"Carp::$_"};
-                ${"Carp::$_"} = $config{$_};
+            for my $name (keys %config) {
+                my $carp_config_name = $name;
+                my $carp_config_val  = $config{$name};
+                if ($name =~ /\A-?Dump\z/) {
+                    $carp_config_name = 'RefArgFormatter';
+                    $carp_config_val  = $config{$name} ? sub {
+                        require Data::Dmp;
+                        Data::Dmp::dmp($_[0]);
+                    } : undef;
+                }
+                $oldvals->{$carp_config_name} = ${"Carp::$carp_config_name"};
+                ${"Carp::$carp_config_name"} = $carp_config_val;
             }
             push @oldvals, $oldvals;
         },
@@ -50,7 +76,7 @@ sub patch_data {
 
 =head1 SYNOPSIS
 
- % perl -MCarp::Patch::Config=MaxArgNums,20 -d:Confess ...
+ % perl -MCarp::Patch::Config=-MaxArgNums,20,-Dump,1 -d:Confess ...
 
 
 =head1 DESCRIPTION
