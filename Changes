@@ -1,3 +1,9 @@
+0.004   2019-12-09  Released-By: PERLANCAR; Urgency: medium
+
+	- Add configuration: -Dump to conveniently enable data structure
+	  dumping.
+
+
 0.003   2019-12-09  Released-By: PERLANCAR; Urgency: medium
 
 	- Update stuffs (Module::Patch now requires config to start with
