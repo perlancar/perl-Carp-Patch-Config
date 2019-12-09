@@ -1,6 +1,8 @@
 package Carp::Patch::Config;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -19,8 +21,8 @@ sub patch_data {
         patches => [
         ],
         config => {
-            MaxArgLen  => {schema=>'int*'},
-            MaxArgNums => {schema=>'int*'},
+            -MaxArgLen  => {schema=>'int*'},
+            -MaxArgNums => {schema=>'int*'},
         },
         after_patch => sub {
             no strict 'refs';
