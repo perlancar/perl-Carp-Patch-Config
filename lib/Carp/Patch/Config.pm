@@ -58,7 +58,7 @@ _
             },
         },
         after_patch => sub {
-            no strict 'refs';
+            no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
             no warnings 'numeric';
             my $oldvals = {};
             for my $name (keys %config) {
@@ -79,7 +79,7 @@ _
             push @oldvals, $oldvals;
         },
         after_unpatch => sub {
-            no strict 'refs';
+            no strict 'refs'; ## no critic: TestingAndDebugging::ProhibitNoStrict
             my $oldvals = shift @oldvals or return;
             for (keys %$oldvals) {
                 ${"Carp::$_"} = $oldvals->{$_};
