@@ -1,16 +1,16 @@
 package Carp::Patch::Config;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010001;
 use strict;
 no warnings;
 
 use Module::Patch qw();
 use base qw(Module::Patch);
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 my @oldvals;
 our %config;
@@ -108,3 +108,5 @@ C<MaxArgLen>, C<MaxArgNums>.
 =head1 append:SEE ALSO
 
 L<Devel::Confess>
+
+L<Carp::Patch::Verbose>
