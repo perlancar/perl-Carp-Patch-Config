@@ -68,7 +68,7 @@ _
             no warnings 'numeric';
             my $oldvals = {};
             for my $name (keys %config) {
-                my $carp_config_name = $name;
+                (my $carp_config_name = $name) =~ s/\A-//;
                 my $carp_config_val  = $config{$name};
                 if ($name =~ /\A-?Dump\z/) {
                     $carp_config_name = 'RefArgFormatter';
