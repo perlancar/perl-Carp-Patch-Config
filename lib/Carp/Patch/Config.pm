@@ -78,7 +78,7 @@ _
                         $config{$name} == 2   || $config{$name} eq 'Data::Dump'                 ? sub { require Data::Dump; Data::Dump::dump($_[0]) } :
                         $config{$name} == 3   || $config{$name} eq 'Data::Dump::ObjectAsString' ? sub { require Data::Dump::ObjectAsString; Data::Dump::ObjectAsString::dump($_[0]) } :
                         $config{$name} == 4   || $config{$name} eq 'Data::Dump::IfSmall'        ? sub { require Data::Dump::IfSmall; Data::Dump::IfSmall::dump($_[0]) } :
-                        die "Unknown value for -Dump, please choose 0/none, 1/Data::Dmp, 2/Data::Dump, 3/Data::Dump::ObjectAsString";
+                        die "Unknown value for -Dump, please choose 0/none, 1/Data::Dmp, 2/Data::Dump, 3/Data::Dump::ObjectAsString, 4/Data::Dump::IfSmall";
                 }
                 $oldvals->{$carp_config_name} = ${"Carp::$carp_config_name"};
                 ${"Carp::$carp_config_name"} = $carp_config_val;
